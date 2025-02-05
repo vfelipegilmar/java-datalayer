@@ -10,12 +10,14 @@ public class DataLayer {
     private final ArrayList<String> required;
     private final boolean timestamps;
     private final HashMap<String, String> database;
-    protected String statement = null;
-    protected SQLException fail = null;
-    protected ResultSet data = null;
+    private String group;
+    private String limit;
     private Statement stmt = null;
     private String columns = "*";
+    protected String statement = null;
     protected ArrayList<Object> params;
+    protected SQLException fail = null;
+    protected ResultSet data = null;
 
 
     public DataLayer(String entity, ArrayList<String> required) {
@@ -111,6 +113,16 @@ public class DataLayer {
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
             return 0;
         }
+    }
+
+    public DataLayer Limit(String limit) {
+        this.limit = "LIMIT " + limit;
+        return this;
+    }
+
+    public DataLayer Group(String group) throws SQLException {
+        this.group = "GROUP BY " + group;
+        return this;
     }
 
     public DataLayer FindById(int id, String columns) throws SQLException {
